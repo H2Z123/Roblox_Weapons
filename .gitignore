@@ -1,0 +1,13 @@
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+
+# Blender autosaves / backups
+*.blend1
+*.blend2
+*.blend@
+
+# Local working outputs (keep manifests/reports you want to share by adding them explicitly)
+Reports/tmp/

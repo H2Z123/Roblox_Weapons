@@ -1,0 +1,175 @@
+{
+  "_comment": "ECLIPSE validator default configuration. Copy and override with --config. Values tagged in Standards/*.md as [OFFICIEL] must not be relaxed; [ECLIPSE] values are project starting points to recalibrate after the first ECLIPSE-1 audit.",
+  "version": 1,
+
+  "thresholds": {
+    "merge_distance": 1e-05,
+    "degenerate_area": 1e-10,
+    "degenerate_edge_length": 1e-06,
+    "sliver_min_angle_deg": 1.0,
+    "sliver_min_area": 1e-08,
+    "tjunction_tolerance": 0.0001,
+    "ngon_planarity_ratio": 0.002,
+    "max_tris_per_meshpart_hard": 20000,
+    "extreme_normal_deviation_deg": 75.0,
+    "big_face_area_percentile": 80,
+    "wn_min_weight": 90,
+    "screen_height_px": 1080,
+    "camera_vertical_fov_deg": 70.0,
+    "min_bevel_px": 2.0,
+    "max_bevel_ratio": 0.1,
+    "uv_stretch_ratio": 4.0,
+    "uv_stretch_max_share": 0.05,
+    "uv_raster_resolution": 256,
+    "uv_min_packing_efficiency": 0.45,
+    "clearance_min": 0.002,
+    "sweep_steps": 24,
+    "grip_angle_min_deg": 10.0,
+    "grip_angle_max_deg": 28.0,
+    "metal_min_linear_luminance": 0.35,
+    "dielectric_min_linear_luminance": 0.013,
+    "metallic_binary_tolerance": 0.05,
+    "metallic_nonbinary_max_share": 0.2,
+    "roughness_min_stddev": 0.02,
+    "origin_max_distance_ratio": 0.5,
+    "texture_max_resolution_hard": 4096,
+    "packing_efficiency_assumed": 0.7
+  },
+
+  "profiles": {
+    "source": {
+      "_comment": "Lenient profile for work-in-progress source files. Same measurements as viewmodel, softer severities.",
+      "view_distance": 2.0,
+      "max_bevel_segments": 4,
+      "big_face_max_normal_dev_deg": 1.5,
+      "texture_resolution": 1024,
+      "max_texture_resolution": 4096,
+      "uv_padding_px": 16,
+      "min_texel_density": 200,
+      "texel_density_max_spread": 2.5,
+      "tris_soft_max_total": 40000,
+      "tris_soft_max_part": 15000,
+      "meshpart_max": 24,
+      "material_max": 6,
+      "micro_min_projected_px": 2.0,
+      "dimensions_range": [0.2, 8.0],
+      "required_markers": [],
+      "severity": {
+        "TRF001": "INFO", "TRF003": "INFO", "UV003": "INFO", "MAT002": "INFO",
+        "NAM001": "INFO", "EXP009": "INFO", "PIV003": "INFO"
+      }
+    },
+    "viewmodel": {
+      "_comment": "First-person weapon seen at ~1.5-3 studs from the camera (FOV 70 vertical).",
+      "view_distance": 2.0,
+      "max_bevel_segments": 3,
+      "big_face_max_normal_dev_deg": 1.0,
+      "texture_resolution": 1024,
+      "max_texture_resolution": 2048,
+      "uv_padding_px": 16,
+      "min_texel_density": 256,
+      "texel_density_max_spread": 2.0,
+      "tris_soft_max_total": 30000,
+      "tris_soft_max_part": 12000,
+      "meshpart_max": 16,
+      "material_max": 4,
+      "micro_min_projected_px": 3.0,
+      "dimensions_range": [0.4, 6.0],
+      "required_markers": ["grip", "muzzle"],
+      "severity": {}
+    },
+    "worldmodel": {
+      "_comment": "Third-person weapon held by other players, typically seen from 8-50 studs.",
+      "view_distance": 12.0,
+      "max_bevel_segments": 1,
+      "big_face_max_normal_dev_deg": 2.0,
+      "texture_resolution": 512,
+      "max_texture_resolution": 1024,
+      "uv_padding_px": 8,
+      "min_texel_density": 48,
+      "texel_density_max_spread": 2.5,
+      "tris_soft_max_total": 6000,
+      "tris_soft_max_part": 4000,
+      "meshpart_max": 6,
+      "material_max": 2,
+      "micro_min_projected_px": 4.0,
+      "dimensions_range": [0.4, 6.0],
+      "required_markers": ["grip"],
+      "severity": {}
+    }
+  },
+
+  "stage_severity": {
+    "source": {},
+    "export": {
+      "TRF001": "FAIL",
+      "TRF003": "WARN",
+      "EXP001": "FAIL",
+      "EXP009": "WARN",
+      "UV003": "WARN",
+      "MAT002": "FAIL"
+    }
+  },
+
+  "disabled_rules": [],
+
+  "scope": {
+    "exclude_collection_patterns": ["(?i)(^|_)(cutters?|wip|refs?|reference|archive|backup|old|trash)($|_)"],
+    "export_exclude_collection_patterns": ["(?i)(^|_)(prox(y|ies))($|_)"],
+    "vm_collection_pattern": "(?i)(^|_)(vm|viewmodel)($|_)",
+    "wm_collection_pattern": "(?i)(^|_)(wm|worldmodel)($|_)",
+    "cutter_name_pattern": "(?i)(cutter|bool)"
+  },
+
+  "orientation": {
+    "_comment": "Blender-space axis the MUZZLE points to. '-Y' matches the official Roblox Blender preset (FBX Forward = Z, Up = Y) which maps Blender -Y to Roblox -Z (LookVector). If ECLIPSE historically exported with FBX Forward = -Z, set '+Y'. Verify with Tools/BlenderValidation/tools/make_calibration_asset.py.",
+    "blender_forward": "-Y",
+    "blender_up": "Z"
+  },
+
+  "markers": {
+    "grip": "(?i)grip(_?ref|_att)?$",
+    "muzzle": "(?i)muzzle",
+    "aim": "(?i)(aim|sight)(_ref|_att)?$"
+  },
+
+  "naming": {
+    "object_patterns": [
+      "^ECLIPSE1_(VM|WM)_[A-Za-z0-9]+(_[A-Za-z0-9]+)*$",
+      "^[A-Z][A-Za-z0-9]*(_[A-Za-z0-9]+)*$"
+    ],
+    "legacy_names": ["MainBody", "TopHatch", "Cartridge", "Handle"],
+    "material_pattern": "^M_[A-Za-z0-9]+(_[A-Za-z0-9]+)*$",
+    "texture_pattern": "^T_[A-Za-z0-9_]+_(BaseColor|Color|Albedo|Normal|Roughness|Metalness|Metallic|Emissive|AO)$",
+    "roblox_name_valid": "^[A-Za-z][A-Za-z0-9_]*$",
+    "export_file_pattern": "(?i)_export(_v\\d+)?\\.blend$"
+  },
+
+  "moving_parts": {
+    "_comment": "Motion definitions by object name (or roblox_name). Custom properties eclipse_motion_* on the object override these. Example (disabled until measured on ECLIPSE-1): 'TopHatch': {'type': 'ROTATE', 'axis': 'X', 'min': 0, 'max': 110}"
+  },
+
+  "sweep_scenarios": [],
+
+  "collision_ignore_pairs": [],
+
+  "export_preset": {
+    "_comment": "FBX preset used by tools/eclipse_export.py. Mirrors the official Roblox Blender export page. NOT verified in Roblox Studio from this cloud session.",
+    "format": "FBX",
+    "apply_scale_options": "FBX_SCALE_UNITS",
+    "global_scale": 1.0,
+    "apply_unit_scale": true,
+    "axis_forward": "Z",
+    "axis_up": "Y",
+    "bake_space_transform": false,
+    "use_mesh_modifiers": true,
+    "mesh_smooth_type": "OFF",
+    "use_triangles": false,
+    "use_tspace": false,
+    "add_leaf_bones": false,
+    "bake_anim": false,
+    "path_mode": "COPY",
+    "embed_textures": true,
+    "object_types": ["MESH", "EMPTY", "ARMATURE"]
+  }
+}
